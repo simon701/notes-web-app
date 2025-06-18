@@ -88,6 +88,7 @@ function App() {
 =======
 import "./App.css";
 import ListNotes from "./components/ListNotes";
+import "./index.css";
 
 function App() {
   return (

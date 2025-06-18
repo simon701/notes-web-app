@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -72,3 +73,8 @@ button:focus-visible {
   }
 }
 >>>>>>> 532439a (feat: implement notes CLI app UI using React)
+=======
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+>>>>>>> 768b484 (feat: implemented tailwind instead of CSS)
