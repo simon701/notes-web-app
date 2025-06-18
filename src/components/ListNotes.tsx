@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { deleteNote, getNotes, updateNote } from "../services/noteService";
 import AddNote from "./AddNote";
-import { FaCheck, FaTimes, FaTrash } from "react-icons/fa";
+import { FaCheck, FaTimes, FaTrash, FaPlus } from "react-icons/fa";
 
 type Note = {
   title: string;
@@ -67,16 +67,16 @@ const ListNotes: React.FC = () => {
   };
 
   return (
-    <div style={{ padding: "20px", maxWidth: "1000px", margin: "0 auto" }}>
-      <h1 style={{ marginBottom: "0.5rem" }}>Notes Web App</h1>
-      <h2 style={{ marginTop: 0 }}>My Notes</h2>
+    <div className="p-5 max-w-[1000px] mx-auto">
+      <h1 className="mb-2 text-3xl font-bold text-center">Notes Web App</h1>
+      <h2 className="mt-0 text-xl font-semibold text-gray-700 text-center">My Notes</h2>
       {isModalOpen && (
         <AddNote
           onClose={() => setIsModalOpen(false)}
           onNoteAdded={fetchNotes}
         />
       )}
-      <ul className="note-grid">
+      <ul className="flex flex-wrap gap-5 justify-center p-5 list-none m-0">
         {notes.map((note) => {
           const cardColor = note.color || "bg-yellow";
           const isEditing = editingTitle === note.title;
@@ -84,37 +84,40 @@ const ListNotes: React.FC = () => {
           return (
             <li
               key={note.title}
-              className={`note-card ${cardColor}`}
+              className={`w-[175px] h-[175px] rounded-2xl shadow-xl p-5 overflow-hidden flex flex-col justify-start transition-transform duration-200 ease-in-out hover:-translate-y-1 ${cardColor}`}
               ref={isEditing ? cardRef : null}
             >
               {isEditing ? (
                 <>
                   <input
-                    className="edit-input"
+                    className="w-[90%] p-3 mb-2 rounded-lg text-base bg-white/90 shadow-inner text-gray-800 border-none"
                     value={editedNote.title}
                     onChange={(e) =>
                       setEditedNote({ ...editedNote, title: e.target.value })
                     }
                   />
                   <textarea
-                    className="edit-textarea"
+                    className="resize-y h-[100px] w-[90%] p-3 mb-2 rounded-lg text-base bg-white/90 shadow-inner text-gray-800 border-none"
                     value={editedNote.body}
                     onChange={(e) =>
                       setEditedNote({ ...editedNote, body: e.target.value })
                     }
                   />
-                  <div className="edit-buttons">
-                    <button className="save-btn" onClick={update}>
+                  <div className="flex justify-center mt-[10px]">
+                    <button
+                      className="flex-1 px-3 py-2 mx-1 text-white rounded-md transition-transform hover:scale-105 bg-green-600 hover:bg-green-700"
+                      onClick={update}
+                    >
                       <FaCheck />
                     </button>
                     <button
-                      className="cancel-btn"
+                      className="flex-1 px-3 py-2 mx-1 text-white rounded-md transition-transform hover:scale-105 bg-gray-500 hover:bg-gray-600"
                       onClick={() => setEditingTitle(null)}
                     >
                       <FaTimes />
                     </button>
                     <button
-                      className="delete-btn"
+                      className="flex-1 px-3 py-2 mx-1 text-white rounded-md transition-transform hover:scale-105 bg-red-600 hover:bg-red-700"
                       onClick={() => deletePrompt(note.title)}
                     >
                       <FaTrash />
@@ -122,20 +125,20 @@ const ListNotes: React.FC = () => {
                   </div>
                 </>
               ) : (
-                <div
-                  onClick={() => startEditing(note)}
-                  style={{ cursor: "pointer" }}
-                >
-                  <h3 className="note-title">{note.title}</h3>
-                  <p className="note-body">{note.body}</p>
+                <div onClick={() => startEditing(note)} className="cursor-pointer">
+                  <h3 className="text-lg font-bold mb-2">{note.title}</h3>
+                  <p className="text-sm text-gray-800 leading-snug line-clamp-3">{note.body}</p>
                 </div>
               )}
             </li>
           );
         })}
       </ul>
-      <button className="add-button" onClick={() => setIsModalOpen(true)}>
-        +
+      <button
+        className="fixed bottom-8 right-8 w-[60px] h-[60px] text-[40px] rounded-full bg-purple-600 text-white shadow-xl flex items-center justify-center hover:bg-purple-800"
+        onClick={() => setIsModalOpen(true)}
+      >
+        <FaPlus />
       </button>
     </div>
   );
