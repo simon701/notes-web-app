@@ -7,17 +7,23 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+<<<<<<< HEAD
 # Runtime
+=======
+>>>>>>> 532439a (feat: implement notes CLI app UI using React)
 node_modules
 dist
 dist-ssr
 *.local
 
+<<<<<<< HEAD
 # Env files
 .env
 .env.local
 .env.*.local
 
+=======
+>>>>>>> 532439a (feat: implement notes CLI app UI using React)
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

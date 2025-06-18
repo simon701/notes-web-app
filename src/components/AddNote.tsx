@@ -9,7 +9,6 @@ type Props = {
 const AddNote: React.FC<Props> = ({ onClose, onNoteAdded }) => {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
-
   const colors = [
     "bg-yellow-200",
     "bg-orange-200",
@@ -17,7 +16,6 @@ const AddNote: React.FC<Props> = ({ onClose, onNoteAdded }) => {
     "bg-blue-200",
     "bg-purple-200",
   ];
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!title || !body) return;

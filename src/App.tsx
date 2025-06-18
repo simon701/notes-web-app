@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import "./index.css";
 import ListNotes from "./components/ListNotes";
 import Login from "./components/Login";
@@ -84,6 +85,14 @@ function App() {
         </button>
       </div>
 
+=======
+import "./App.css";
+import ListNotes from "./components/ListNotes";
+
+function App() {
+  return (
+    <div>
+>>>>>>> 532439a (feat: implement notes CLI app UI using React)
       <ListNotes />
     </div>
   );
