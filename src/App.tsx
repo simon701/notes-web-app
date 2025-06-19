@@ -1,16 +1,41 @@
-import "./App.css";
 import "./index.css";
 import ListNotes from "./components/ListNotes";
 import Login from "./components/Login";
 import { useState, useEffect } from "react";
+import { jwtDecode } from "jwt-decode";
 
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
   const username = localStorage.getItem("username");
 
+  const isTokenExpired = (token: string) => {
+    try {
+      const decoded: any=jwtDecode(token);
+      return decoded.exp*1000<Date.now();
+    } catch {
+      return true;
+    }
+  };
+
+  const autoLogout = (token: string) => {
+    const decoded: any=jwtDecode(token);
+    const expiryTime=decoded.exp*1000;
+    const timeLeft=expiryTime-Date.now();
+
+    setTimeout(() => {
+      handleLogout();
+      alert("Session expired. You have been logged out.");
+    }, timeLeft);
+  };
+
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (token) setAuthenticated(true);
+    if (token && !isTokenExpired(token)) {
+      setAuthenticated(true);
+      autoLogout(token);
+    } else {
+      handleLogout();
+    }
   }, []);
 
   const handleLogout = () => {
@@ -20,7 +45,11 @@ function App() {
   };
 
   if (!authenticated) {
-    return <Login onLogin={() => setAuthenticated(true)} />;
+    return <Login onLogin={() => {
+      setAuthenticated(true);
+      const token = localStorage.getItem("token");
+      if (token) autoLogout(token);
+    }} />;
   }
 
   return (

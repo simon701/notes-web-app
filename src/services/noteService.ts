@@ -1,6 +1,17 @@
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 
 const API_URL = import.meta.env.VITE_API_URL;
+
+const isTokenExpired = (token: string | null): boolean => {
+  if (!token) return true;
+  try {
+    const decoded: any = jwtDecode(token);
+    return decoded.exp * 1000 < Date.now();
+  } catch {
+    return true;
+  }
+};
 
 const handleAuthError = (error: any) => {
   if (error.response && error.response.status === 401) {
@@ -12,11 +23,21 @@ const handleAuthError = (error: any) => {
   }
 };
 
-const getAuthHeader = () => ({
-  headers: {
-    Authorization: `Bearer ${localStorage.getItem("token")}`,
-  },
-});
+const getAuthHeader = () => {
+  const token = localStorage.getItem("token");
+  if (!token || isTokenExpired(token)) {
+    localStorage.removeItem("token");
+    localStorage.removeItem("username");
+    window.location.reload();
+    return {};
+  }
+
+  return {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+};
 
 export const getNotes = async () => {
   try {
