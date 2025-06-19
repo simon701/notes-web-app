@@ -73,7 +73,8 @@ function App() {
     <div className="min-h-screen bg-gray-100">
       <div className="flex justify-between items-center p-4 border-b bg-white shadow-sm">
         <p className="text-sm text-gray-700">
-          Logged in as <span className="font-bold text-purple-700">{username}</span>
+          Logged in as{" "}
+          <span className="font-bold text-purple-700">{username}</span>
         </p>
         <button
           onClick={handleLogout}
