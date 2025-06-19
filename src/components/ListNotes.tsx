@@ -69,7 +69,9 @@ const ListNotes: React.FC = () => {
   return (
     <div className="p-5 max-w-[1000px] mx-auto">
       <h1 className="mb-2 text-3xl font-bold text-center">Notes Web App</h1>
-      <h2 className="mt-0 text-xl font-semibold text-gray-700 text-center">My Notes</h2>
+      <h2 className="mt-0 text-xl font-semibold text-gray-700 text-center">
+        My Notes
+      </h2>
       {isModalOpen && (
         <AddNote
           onClose={() => setIsModalOpen(false)}
@@ -125,9 +127,14 @@ const ListNotes: React.FC = () => {
                   </div>
                 </>
               ) : (
-                <div onClick={() => startEditing(note)} className="cursor-pointer">
+                <div
+                  onClick={() => startEditing(note)}
+                  className="cursor-pointer"
+                >
                   <h3 className="text-lg font-bold mb-2">{note.title}</h3>
-                  <p className="text-sm text-gray-800 leading-snug line-clamp-3">{note.body}</p>
+                  <p className="text-sm text-gray-800 leading-snug line-clamp-3">
+                    {note.body}
+                  </p>
                 </div>
               )}
             </li>

@@ -1,20 +1,28 @@
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
+import type { AxiosError } from "axios";
 
 const API_URL = import.meta.env.VITE_API_URL;
+
+interface JwtPayload {
+  username: string;
+  exp: number;
+  iat?: number;
+}
 
 const isTokenExpired = (token: string | null): boolean => {
   if (!token) return true;
   try {
-    const decoded: any = jwtDecode(token);
+    const decoded = jwtDecode<JwtPayload>(token);
     return decoded.exp * 1000 < Date.now();
   } catch {
     return true;
   }
 };
 
-const handleAuthError = (error: any) => {
-  if (error.response && error.response.status === 401) {
+const handleAuthError = (error: unknown) => {
+  const err = error as AxiosError;
+  if (err.response && err.response.status === 401) {
     localStorage.removeItem("token");
     localStorage.removeItem("username");
     window.location.reload();
