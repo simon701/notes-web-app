@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import "./index.css";
 import ListNotes from "./components/ListNotes";
 import Login from "./components/Login";
@@ -74,8 +73,7 @@ function App() {
     <div className="min-h-screen bg-gray-100">
       <div className="flex justify-between items-center p-4 border-b bg-white shadow-sm">
         <p className="text-sm text-gray-700">
-          Logged in as{" "}
-          <span className="font-bold text-purple-700">{username}</span>
+          Logged in as <span className="font-bold text-purple-700">{username}</span>
         </p>
         <button
           onClick={handleLogout}
@@ -85,15 +83,6 @@ function App() {
         </button>
       </div>
 
-=======
-import "./App.css";
-import ListNotes from "./components/ListNotes";
-import "./index.css";
-
-function App() {
-  return (
-    <div>
->>>>>>> 532439a (feat: implement notes CLI app UI using React)
       <ListNotes />
     </div>
   );
