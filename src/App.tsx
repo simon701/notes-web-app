@@ -71,20 +71,22 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      <div className="flex justify-between items-center p-4 border-b bg-white shadow-sm">
-        <p className="text-sm text-gray-700">
+      <div className="flex flex-col sm:flex-row justify-between items-center p-4 border-b bg-white shadow-sm gap-2 sm:gap-0">
+        <p className="text-sm sm:text-base text-gray-700">
           Logged in as{" "}
           <span className="font-bold text-purple-700">{username}</span>
         </p>
         <button
           onClick={handleLogout}
-          className="text-sm px-4 py-2 rounded bg-red-600 text-white hover:bg-red-700 transition-all"
+          className="text-sm sm:text-base px-4 py-2 rounded bg-purple-600 sm:bg-red-600 text-white hover:bg-purple-700 sm:hover:bg-red-700 transition-all"
         >
           Logout
         </button>
       </div>
 
-      <ListNotes />
+      <div className="px-2 sm:px-8">
+        <ListNotes />
+      </div>
     </div>
   );
 }
