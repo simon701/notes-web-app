@@ -37,12 +37,12 @@ function Login({ onLogin }: { onLogin: () => void }) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col gap-3 max-w-md mx-auto p-4"
+      className="flex flex-col gap-3 max-w-md mx-auto p-4 sm:p-6"
     >
-      <h2 className="text-2xl font-bold text-center">Login</h2>
+      <h2 className="text-2xl sm:text-3xl font-bold text-center">Login</h2>
 
       {error && (
-        <div className="bg-red-100 text-red-700 p-2 rounded text-center">
+        <div className="bg-red-100 text-red-700 p-2 rounded text-center text-sm sm:text-base">
           {error}
         </div>
       )}
@@ -50,20 +50,20 @@ function Login({ onLogin }: { onLogin: () => void }) {
       <input
         type="text"
         placeholder="Username"
-        className="p-2 border rounded"
+        className="p-2 sm:p-3 border rounded text-sm sm:text-base"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
       />
       <input
         type="password"
         placeholder="Password"
-        className="p-2 border rounded"
+        className="p-2 sm:p-3 border rounded text-sm sm:text-base"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
       <button
         type="submit"
-        className="bg-purple-700 text-white py-2 rounded hover:bg-purple-800"
+        className="bg-purple-700 text-white py-2 sm:py-3 text-sm sm:text-base rounded hover:bg-purple-800 transition-all"
       >
         Login
       </button>
