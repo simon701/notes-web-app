@@ -29,7 +29,7 @@ const AddNote: React.FC<Props> = ({ onClose, onNoteAdded }) => {
 
   return (
     <div className="fixed inset-0 bg-black/30 flex justify-center items-center z-[1000]">
-      <div className="bg-white p-6 rounded-xl shadow-xl w-[90%] max-w-[500px]">
+      <div className="bg-white p-6 rounded-xl shadow-xl w-[90%] max-w-[500px] max-h-[90vh] overflow-y-auto">
         <h2 className="text-xl font-bold mb-4">Add Note</h2>
         <form onSubmit={handleSubmit}>
           <input
