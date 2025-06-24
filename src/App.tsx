@@ -3,6 +3,7 @@ import ListNotes from "./components/ListNotes";
 import Login from "./components/Login";
 import { useState, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
+import { logoutUser, isTokenExpired } from "./services/noteService";
 
 interface JwtPayload {
   username: string;
@@ -13,15 +14,6 @@ interface JwtPayload {
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
   const username = localStorage.getItem("username");
-
-  const isTokenExpired = (token: string) => {
-    try {
-      const decoded = jwtDecode<JwtPayload>(token);
-      return decoded.exp * 1000 < Date.now();
-    } catch {
-      return true;
-    }
-  };
 
   const autoLogout = (token: string) => {
     const decoded = jwtDecode<JwtPayload>(token);
@@ -40,7 +32,9 @@ function App() {
       setAuthenticated(true);
       autoLogout(token);
     } else {
-      handleLogout();
+      setAuthenticated(false);
+      localStorage.removeItem("token");
+      localStorage.removeItem("username");
     }
   }, []);
 
@@ -50,11 +44,10 @@ function App() {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
+    }).finally(() => {
+      logoutUser();
+      setAuthenticated(false);
     });
-
-    localStorage.removeItem("token");
-    localStorage.removeItem("username");
-    setAuthenticated(false);
   };
 
   if (!authenticated) {

@@ -10,7 +10,7 @@ interface JwtPayload {
   iat?: number;
 }
 
-const isTokenExpired = (token: string | null): boolean => {
+export const isTokenExpired = (token: string | null): boolean => {
   if (!token) return true;
   try {
     const decoded = jwtDecode<JwtPayload>(token);
@@ -18,6 +18,11 @@ const isTokenExpired = (token: string | null): boolean => {
   } catch {
     return true;
   }
+};
+
+export const logoutUser = () => {
+  localStorage.removeItem("token");
+  localStorage.removeItem("username");
 };
 
 const handleAuthError = (error: unknown) => {
@@ -36,7 +41,6 @@ const getAuthHeader = () => {
   if (!token || isTokenExpired(token)) {
     localStorage.removeItem("token");
     localStorage.removeItem("username");
-    window.location.reload();
     return {};
   }
 
