@@ -1,5 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
-import { deleteNote, getNotes, updateNote } from "../services/noteService";
+import {
+  deleteNote,
+  getNotes,
+  updateNote,
+  getNote,
+} from "../services/noteService";
 import AddNote from "./AddNote";
 import { FaCheck, FaTimes, FaTrash, FaPlus } from "react-icons/fa";
 
@@ -15,6 +20,9 @@ const ListNotes: React.FC = () => {
   const [editingTitle, setEditingTitle] = useState<string | null>(null);
   const [editedNote, setEditedNote] = useState<Note>({ title: "", body: "" });
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchResult, setSearchResult] = useState<Note | null>(null);
+  const [notFound, setNotFound] = useState(false);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -64,6 +72,23 @@ const ListNotes: React.FC = () => {
     fetchNotes();
   };
 
+  const handleSearch = async () => {
+    if (!searchTerm.trim()) return;
+    try {
+      const result = await getNote(searchTerm.trim());
+      if (result) {
+        setSearchResult(result);
+        setNotFound(false);
+      } else {
+        setSearchResult(null);
+        setNotFound(true);
+      }
+    } catch {
+      setSearchResult(null);
+      setNotFound(true);
+    }
+  };
+
   return (
     <div className="p-4 sm:p-5 max-w-[1000px] mx-auto">
       <h1 className="mb-2 text-2xl sm:text-3xl font-bold text-center">
@@ -81,8 +106,36 @@ const ListNotes: React.FC = () => {
       )}
 
       <div className="pb-24">
+        <div className="flex flex-col sm:flex-row gap-2 justify-center mb-4">
+          <input
+            type="text"
+            placeholder="Search by title"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="px-3 py-2 border rounded text-sm sm:text-base w-full sm:w-80"
+            onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+          />
+          <button
+            onClick={handleSearch}
+            className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 text-sm sm:text-base"
+          >
+            Search
+          </button>
+          {searchResult && (
+            <button
+              onClick={() => {
+                setSearchTerm("");
+                setSearchResult(null);
+                setNotFound(false);
+              }}
+              className="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500 text-sm sm:text-base"
+            >
+              Clear
+            </button>
+          )}
+        </div>
         <ul className="flex flex-wrap gap-5 justify-center p-4 sm:p-5 list-none m-0">
-          {notes.map((note) => {
+          {(searchResult ? [searchResult] : notes).map((note) => {
             const cardColor = note.color || "bg-yellow";
             const isEditing = editingTitle === note.title;
 
@@ -146,6 +199,11 @@ const ListNotes: React.FC = () => {
             );
           })}
         </ul>
+        {notFound && (
+          <p className="text-center text-red-600 mt-4">
+            No note found with that title.
+          </p>
+        )}
 
         <button
           className="fixed bottom-6 right-6 sm:bottom-8 sm:right-8 w-[55px] sm:w-[60px] h-[55px] sm:h-[60px] text-[32px] sm:text-[40px] rounded-full bg-purple-600 text-white shadow-xl flex items-center justify-center hover:bg-purple-800 transition-all"
