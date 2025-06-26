@@ -14,7 +14,7 @@ function Login({ onLogin }: { onLogin: () => void }) {
     }
 
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/login`, {
+      const res = await fetch("/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
