@@ -2,7 +2,7 @@ import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import type { AxiosError } from "axios";
 
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = '';
 
 interface JwtPayload {
   username: string;
